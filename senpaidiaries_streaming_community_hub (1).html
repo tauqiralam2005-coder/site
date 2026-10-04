@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SenpaiDiaries - Streaming & Anime Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#9d4edd',
+                            neonCyan: '#00f5d4',
+                            neonPink: '#f72585',
+                            darkBg: '#0b091a',
+                            cardBg: 'rgba(22, 18, 43, 0.75)',
+                            borderGlow: 'rgba(157, 78, 221, 0.3)'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Glowing & Glassmorphism Effects */
+        .glass-panel {
+            background: rgba(18, 14, 38, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(157, 78, 221, 0.25);
+        }
+        .glass-panel-glow {
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.15);
+        }
+        .neon-border-pink {
+            border-color: #f72585;
+            box-shadow: 0 0 10px rgba(247, 37, 133, 0.4);
+        }
+        .neon-border-cyan {
+            border-color: #00f5d4;
+            box-shadow: 0 0 10px rgba(0, 245, 212, 0.4);
+        }
+        .text-glow-purple {
+            text-shadow: 0 0 12px rgba(157, 78, 221, 0.8);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 12px rgba(0, 245, 212, 0.8);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b091a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a1d82;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9d4edd;
+        }
+        .pulse-live {
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+    </style>
+</head>
+<body class="bg-[#0b091a] text-gray-100 font-sans min-h-screen flex flex-col selection:bg-brand-purple selection:text-white">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-purple-900/40 px-4 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-tr from-purple-900 via-brand-purple to-pink-600 p-[2px] shadow-lg shadow-purple-900/50 group-hover:scale-105 transition-transform duration-300">
+                    <div class="w-full h-full bg-[#0b091a] rounded-[10px] flex items-center justify-center">
+                        <i class="fa-solid font-orbitron text-xl text-brand-neonCyan group-hover:rotate-12 transition-transform duration-300">⚡</i>
+                    </div>
+                </div>
+                <div>
+                    <span class="font-orbitron font-black text-xl lg:text-2xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-400 to-cyan-400 text-glow-purple">
+                        SENPAI<span class="text-brand-neonCyan">DIARIES</span>
+                    </span>
+                    <span class="block text-[10px] text-purple-400 font-rajdhani tracking-widest font-semibold uppercase -mt-1">@senpaidiaries37</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 font-rajdhani text-lg font-semibold tracking-wide">
+                <a href="#stream" class="hover:text-brand-neonCyan transition-colors flex items-center gap-2 text-brand-neonCyan">
+                    <i class="fa-solid fa-play text-xs"></i> Stream
+                </a>
+                <a href="#videos" class="hover:text-brand-neonCyan text-gray-300 transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-film text-xs"></i> Videos & Shorts
+                </a>
+                <a href="#community" class="hover:text-brand-neonCyan text-gray-300 transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-comments text-xs"></i> Chat
+                </a>
+                <a href="#schedule" class="hover:text-brand-neonCyan text-gray-300 transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-days text-xs"></i> Schedule
+                </a>
+            </nav>
+
+            <!-- Status & Action CTA -->
+            <div class="flex items-center gap-3">
+                <!-- Live Status Badge -->
+                <div class="flex items-center gap-2 bg-red-950/60 border border-red-500/50 px-3 py-1.5 rounded-full text-xs font-bold font-orbitron text-red-400">
+                    <span class="w-2.5 h-2.5 bg-red-500 rounded-full pulse-live"></span>
+                    <span id="liveStatusText">LIVE NOW</span>
+                </div>
+
+                <!-- Official YouTube Button -->
+                <a href="https://www.youtube.com/@senpaidiaries37" target="_blank" class="hidden sm:flex items-center gap-2 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-500 hover:to-pink-500 text-white font-orbitron font-semibold text-xs px-4 py-2 rounded-xl shadow-lg shadow-red-950/50 hover:shadow-red-600/30 transition-all duration-300 transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-youtube text-base"></i>
+                    <span>Subscribe</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 lg:px-8 py-6 flex-grow w-full">
+        
+        <!-- TOP STREAM & HERO SECTION -->
+        <section id="stream" class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+            <!-- Video Player (Spans 2 cols) -->
+            <div class="lg:col-span-2 flex flex-col gap-4">
+                <div class="relative w-full aspect-video rounded-2xl overflow-hidden glass-panel border border-purple-500/30 shadow-2xl shadow-purple-950/40 group">
+                    <iframe 
+                        id="mainVideoEmbed" 
+                        class="w-full h-full border-0" 
+                        src="https://www.youtube.com/embed/OqQ90GluRIk?autoplay=0&rel=0&enablejsapi=1" 
+                        title="SenpaiDiaries Stream Player" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <!-- Video Info Box -->
+                <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span id="videoCategory" class="px-2.5 py-0.5 text-xs font-bold font-orbitron bg-purple-900/60 text-brand-neonCyan rounded-md border border-purple-500/30">MINECRAFT LIVE</span>
+                            <span class="text-xs text-gray-400 font-rajdhani font-medium"><i class="fa-regular fa-clock"></i> Streamed Live</span>
+                        </div>
+                        <h1 id="videoTitle" class="text-xl lg:text-2xl font-bold font-rajdhani text-white tracking-wide">
+                            Playing in my own server - Minecraft Live
+                        </h1>
+                        <p class="text-xs text-gray-400 flex items-center gap-3">
+                            <span><i class="fa-regular fa-user text-purple-400"></i> <strong class="text-gray-200">SenpaiDiaries</strong></span>
+                            <span>•</span>
+                            <span id="viewCount"><i class="fa-solid fa-eye text-cyan-400"></i> 12.4K views</span>
+                        </p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                        <button id="likeBtn" onclick="toggleLike()" class="flex items-center gap-2 bg-purple-900/40 hover:bg-purple-800/60 border border-purple-500/30 px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:scale-105 active:scale-95 text-pink-400">
+                            <i class="fa-solid fa-heart"></i>
+                            <span id="likeCount">1.8K</span>
+                        </button>
+                        <button onclick="shareStream()" class="flex items-center gap-2 bg-purple-900/40 hover:bg-purple-800/60 border border-purple-500/30 px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:scale-105 text-cyan-400">
+                            <i class="fa-solid fa-share-nodes"></i>
+                            <span>Share</span>
+                        </button>
+                        <a id="ytDirectLink" href="https://www.youtube.com/watch?v=OqQ90GluRIk" target="_blank" class="bg-red-600/20 border border-red-500/40 hover:bg-red-600/40 text-red-300 px-3.py-2 p-2.5 rounded-xl text-xs font-bold font-orbitron transition-all flex items-center gap-1.5">
+                            <i class="fa-brands fa-youtube text-red-500 text-base"></i>
+                            <span class="hidden sm:inline">Open in YT</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Channel Info Sidebar -->
+            <div class="flex flex-col gap-4">
+                <!-- Channel Bio Card -->
+                <div class="glass-panel p-5 rounded-2xl flex flex-col justify-between border-l-4 border-l-brand-neonCyan">
+                    <div>
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 p-0.5 shadow-lg shadow-purple-900/50">
+                                <div class="w-full h-full bg-[#0b091a] rounded-full flex items-center justify-center font-orbitron font-bold text-2xl text-brand-neonCyan">
+                                    SD
+                                </div>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-bold font-orbitron text-white flex items-center gap-1.5">
+                                    SenpaiDiaries <i class="fa-solid fa-circle-check text-cyan-400 text-xs"></i>
+                                </h2>
+                                <p class="text-xs text-purple-300 font-rajdhani font-semibold">@senpaidiaries37</p>
+                                <span class="inline-block mt-1 text-[11px] px-2 py-0.5 bg-cyan-950/80 border border-cyan-500/30 rounded text-cyan-300 font-mono">Anime & Gaming Creator</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed mb-4">
+                            Welcome to the official home of SenpaiDiaries! Crafting epic Minecraft SMP adventures, Stickman Flash speedruns, and intense Anime AMV/Edits!
+                        </p>
+                    </div>
+
+                    <!-- Analytics Grid -->
+                    <div class="grid grid-cols-2 gap-3 pt-3 border-t border-purple-900/50">
+                        <div class="bg-purple-950/40 border border-purple-800/30 p-3 rounded-xl text-center">
+                            <span class="block text-xl font-bold font-orbitron text-brand-neonCyan">25K+</span>
+                            <span class="text-[11px] font-rajdhani uppercase font-bold text-gray-400">Subscribers</span>
+                        </div>
+                        <div class="bg-purple-950/40 border border-purple-800/30 p-3 rounded-xl text-center">
+                            <span class="block text-xl font-bold font-orbitron text-pink-400">1.2M+</span>
+                            <span class="text-[11px] font-rajdhani uppercase font-bold text-gray-400">Total Views</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Video ID Quick Load -->
+                <div class="glass-panel p-4 rounded-2xl">
+                    <h3 class="text-xs font-orbitron font-bold text-purple-300 mb-2 uppercase tracking-wider">
+                        <i class="fa-solid fa-terminal text-brand-neonCyan mr-1"></i> Custom Video Embed
+                    </h3>
+                    <div class="flex gap-2">
+                        <input id="customVideoInput" type="text" placeholder="Enter YouTube Video ID (e.g. OqQ90GluRIk)" class="bg-purple-950/50 border border-purple-700/50 text-xs text-white px-3 py-2 rounded-xl focus:outline-none focus:border-cyan-400 flex-grow font-mono">
+                        <button onclick="loadCustomVideo()" class="bg-brand-purple hover:bg-purple-600 text-white text-xs font-bold font-orbitron px-3 py-2 rounded-xl transition-colors">
+                            Load
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Discord/Subscribe Banner -->
+                <div class="glass-panel p-4 rounded-2xl bg-gradient-to-r from-purple-950/80 via-indigo-950/80 to-purple-950/80 border border-indigo-500/30 text-center space-y-2">
+                    <i class="fa-brands fa-discord text-3xl text-indigo-400 animate-bounce"></i>
+                    <h4 class="font-orbitron text-sm font-bold text-white">Join Senpai's Anime Squad</h4>
+                    <p class="text-xs text-gray-300">Get notified for Minecraft streams, edit drops, and community giveaways!</p>
+                    <a href="https://www.youtube.com/@senpaidiaries37?sub_confirmation=1" target="_blank" class="inline-block w-full bg-indigo-600 hover:bg-indigo-500 text-white font-orbitron text-xs font-bold py-2 rounded-xl shadow-lg transition-colors">
+                        Join Community
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURED VIDEOS & SHORTS GALLERY -->
+        <section id="videos" class="mb-12">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-2xl font-black font-orbitron text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-cyan-400">
+                        STREAM & VIDEO ARCHIVE
+                    </h2>
+                    <p class="text-xs text-purple-400 font-rajdhani font-semibold">Select any video to load directly into the main cinema player</p>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <!-- Search Input -->
+                    <div class="relative">
+                        <input id="videoSearch" onkeyup="filterVideos()" type="text" placeholder="Search videos..." class="bg-purple-950/40 border border-purple-800/60 rounded-xl px-3 py-1.5 pl-8 text-xs text-gray-200 focus:outline-none focus:border-cyan-400 w-40 sm:w-56 font-sans">
+                        <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-xs text-purple-400"></i>
+                    </div>
+                    <!-- Filter Badges -->
+                    <div id="filterCategoryButtons" class="flex gap-1.5 text-xs font-orbitron font-semibold">
+                        <button onclick="setCategoryFilter('all')" class="cat-btn active bg-brand-purple text-white px-3 py-1.5 rounded-xl border border-purple-400/30 transition-all">All</button>
+                        <button onclick="setCategoryFilter('Minecraft')" class="cat-btn bg-purple-950/60 hover:bg-purple-900/50 text-purple-300 px-3 py-1.5 rounded-xl border border-purple-800/40 transition-all">Minecraft</button>
+                        <button onclick="setCategoryFilter('Anime')" class="cat-btn bg-purple-950/60 hover:bg-purple-900/50 text-purple-300 px-3 py-1.5 rounded-xl border border-purple-800/40 transition-all">Anime Edits</button>
+                        <button onclick="setCategoryFilter('Stickman')" class="cat-btn bg-purple-950/60 hover:bg-purple-900/50 text-purple-300 px-3 py-1.5 rounded-xl border border-purple-800/40 transition-all">Games</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Cards Grid -->
+            <div id="videoGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- Video Item 1 -->
+                <div class="video-card glass-panel rounded-2xl overflow-hidden border border-purple-900/40 hover:border-cyan-400/50 transition-all duration-300 hover:-translate-y-1 group cursor-pointer" data-category="Minecraft" data-id="OqQ90GluRIk" onclick="switchVideo('OqQ90GluRIk', 'Playing in my own server - Minecraft Live', 'Minecraft SMP', '12.4K', '1.8K')">
+                    <div class="relative aspect-video overflow-hidden">
+                        <img src="https://img.youtube.com/vi/OqQ90GluRIk/hqdefault.jpg" alt="Minecraft Live" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute bottom-2 right-2 bg-black/80 font-mono text-[10px] text-cyan-300 px-2 py-0.5 rounded">LIVE</span>
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <i class="fa-solid fa-play text-3xl text-cyan-400 drop-shadow-lg"></i>
+                        </div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <span class="text-[10px] font-bold font-orbitron bg-purple-900/80 text-purple-300 px-2 py-0.5 rounded border border-purple-500/30">MINECRAFT SMP</span>
+                        <h3 class="text-sm font-bold text-white line-clamp-2 group-hover:text-cyan-300 transition-colors">
+                            Playing in my own server - Minecraft Live
+                        </h3>
+                        <p class="text-xs text-gray-400 font-rajdhani flex items-center justify-between">
+                            <span>12.4K views</span>
+                            <span>SenpaiDiaries</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Video Item 2 -->
+                <div class="video-card glass-panel rounded-2xl overflow-hidden border border-purple-900/40 hover:border-pink-400/50 transition-all duration-300 hover:-translate-y-1 group cursor-pointer" data-category="Anime" data-id="wHVG6QmcmYA" onclick="switchVideo('wHVG6QmcmYA', 'Man in love - Akaza & Kyuki Anime Edit', 'Anime Edit', '45.2K', '5.1K')">
+                    <div class="relative aspect-video overflow-hidden">
+                        <img src="https://img.youtube.com/vi/wHVG6QmcmYA/hqdefault.jpg" alt="Anime Edit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute bottom-2 right-2 bg-black/80 font-mono text-[10px] text-pink-300 px-2 py-0.5 rounded">0:58</span>
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <i class="fa-solid fa-play text-3xl text-pink-500 drop-shadow-lg"></i>
+                        </div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <span class="text-[10px] font-bold font-orbitron bg-pink-950/80 text-pink-300 px-2 py-0.5 rounded border border-pink-500/30">ANIME EDIT</span>
+                        <h3 class="text-sm font-bold text-white line-clamp-2 group-hover:text-pink-300 transition-colors">
+                            Man in love - Akaza & Kyuki Anime Edit
+                        </h3>
+                        <p class="text-xs text-gray-400 font-rajdhani flex items-center justify-between">
+                            <span>45.2K views</span>
+                            <span>Demon Slayer</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Video Item 3 -->
+                <div class="video-card glass-panel rounded-2xl overflow-hidden border border-purple-900/40 hover:border-cyan-400/50 transition-all duration-300 hover:-translate-y-1 group cursor-pointer" data-category="Stickman" data-id="4lt2c5ow72w" onclick="switchVideo('4lt2c5ow72w', 'I got the cape of the wizard - Stickman The Flash', 'Stickman Game', '8.9K', '920')">
+                    <div class="relative aspect-video overflow-hidden">
+                        <img src="https://img.youtube.com/vi/4lt2c5ow72w/hqdefault.jpg" alt="Stickman Flash" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute bottom-2 right-2 bg-black/80 font-mono text-[10px] text-cyan-300 px-2 py-0.5 rounded">0:45</span>
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <i class="fa-solid fa-play text-3xl text-cyan-400 drop-shadow-lg"></i>
+                        </div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <span class="text-[10px] font-bold font-orbitron bg-blue-950/80 text-cyan-300 px-2 py-0.5 rounded border border-cyan-500/30">STICKMAN GAME</span>
+                        <h3 class="text-sm font-bold text-white line-clamp-2 group-hover:text-cyan-300 transition-colors">
+                            I got the cape of the wizard - Stickman The Flash
+                        </h3>
+                        <p class="text-xs text-gray-400 font-rajdhani flex items-center justify-between">
+                            <span>8.9K views</span>
+                            <span>Gaming Shorts</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Video Item 4 -->
+                <div class="video-card glass-panel rounded-2xl overflow-hidden border border-purple-900/40 hover:border-purple-400/50 transition-all duration-300 hover:-translate-y-1 group cursor-pointer" data-category="Minecraft" data-id="GXfogV_TH8M" onclick="switchVideo('GXfogV_TH8M', 'Minecraft Live Gamefleet Stream Highlights', 'Minecraft Stream', '18.1K', '2.3K')">
+                    <div class="relative aspect-video overflow-hidden">
+                        <img src="https://img.youtube.com/vi/GXfogV_TH8M/hqdefault.jpg" alt="Minecraft Gamefleet" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute bottom-2 right-2 bg-black/80 font-mono text-[10px] text-purple-300 px-2 py-0.5 rounded">STREAM</span>
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <i class="fa-solid fa-play text-3xl text-purple-400 drop-shadow-lg"></i>
+                        </div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <span class="text-[10px] font-bold font-orbitron bg-purple-900/80 text-purple-300 px-2 py-0.5 rounded border border-purple-500/30">GAMEFLEET STREAM</span>
+                        <h3 class="text-sm font-bold text-white line-clamp-2 group-hover:text-purple-300 transition-colors">
+                            Minecraft Live Gamefleet Stream
+                        </h3>
+                        <p class="text-xs text-gray-400 font-rajdhani flex items-center justify-between">
+                            <span>18.1K views</span>
+                            <span>Multiplayer Live</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMMUNITY LIVE CHAT & COMMENTS HUB -->
+        <section id="community" class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Left Side: Interactive Live Stream Chat Box (2 Cols) -->
+            <div class="lg:col-span-2 glass-panel p-5 rounded-2xl flex flex-col h-[520px]">
+                <div class="flex items-center justify-between border-b border-purple-900/50 pb-3 mb-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-brand-neonCyan text-lg"></i>
+                        <h2 class="font-orbitron font-bold text-lg text-white">LIVE COMMUNITY CHAT</h2>
+                    </div>
+                    <span class="text-xs font-rajdhani font-semibold text-gray-400 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-green-400 animate-ping"></span> 342 Active Viewers
+                    </span>
+                </div>
+
+                <!-- Chat Messages Feed -->
+                <div id="chatFeed" class="flex-grow overflow-y-auto space-y-3 pr-2 mb-4 font-sans text-xs">
+                    <!-- Pre-loaded Fan Comments -->
+                    <div class="p-2.5 rounded-xl bg-purple-950/30 border border-purple-900/30 flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-full bg-cyan-900 flex items-center justify-center font-bold text-cyan-300 shrink-0 font-orbitron">
+                            A
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex items-center justify-between mb-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-cyan-300">AnimeLover99</span>
+                                    <span class="bg-pink-950 text-pink-300 border border-pink-500/30 text-[9px] px-1.5 py-0.2 rounded font-orbitron">VIP</span>
+                                </div>
+                                <span class="text-[10px] text-gray-500">2m ago</span>
+                            </div>
+                            <p class="text-gray-200">Bro that Demon Slayer Akaza edit was absolute fire 🔥 when is the next edit coming?</p>
+                            <div class="flex items-center gap-3 mt-1.5 text-[10px] text-gray-400">
+                                <button onclick="likeComment(this)" class="hover:text-pink-400 flex items-center gap-1"><i class="fa-regular fa-heart"></i> 14</button>
+                                <button onclick="replyComment('AnimeLover99')" class="hover:text-cyan-400"><i class="fa-solid fa-reply"></i> Reply</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-2.5 rounded-xl bg-purple-950/30 border border-purple-900/30 flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-full bg-purple-900 flex items-center justify-center font-bold text-purple-300 shrink-0 font-orbitron">
+                            C
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex items-center justify-between mb-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-purple-300">CraftMaster_07</span>
+                                    <span class="bg-purple-950 text-purple-300 border border-purple-500/30 text-[9px] px-1.5 py-0.2 rounded font-orbitron">SUB</span>
+                                </div>
+                                <span class="text-[10px] text-gray-500">5m ago</span>
+                            </div>
+                            <p class="text-gray-200">The Minecraft SMP build looks insane! Can we get a server tour in the next live?</p>
+                            <div class="flex items-center gap-3 mt-1.5 text-[10px] text-gray-400">
+                                <button onclick="likeComment(this)" class="hover:text-pink-400 flex items-center gap-1"><i class="fa-regular fa-heart"></i> 8</button>
+                                <button onclick="replyComment('CraftMaster_07')" class="hover:text-cyan-400"><i class="fa-solid fa-reply"></i> Reply</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-2.5 rounded-xl bg-purple-950/30 border border-purple-900/30 flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-full bg-pink-900 flex items-center justify-center font-bold text-pink-300 shrink-0 font-orbitron">
+                            F
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex items-center justify-between mb-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-pink-300">FlashRunner</span>
+                                    <span class="bg-blue-950 text-cyan-300 border border-cyan-500/30 text-[9px] px-1.5 py-0.2 rounded font-orbitron">FAN</span>
+                                </div>
+                                <span class="text-[10px] text-gray-500">12m ago</span>
+                            </div>
+                            <p class="text-gray-200">Stickman The Flash speedrun wizard cape combo was smooth! GG Senpai!</p>
+                            <div class="flex items-center gap-3 mt-1.5 text-[10px] text-gray-400">
+                                <button onclick="likeComment(this)" class="hover:text-pink-400 flex items-center gap-1"><i class="fa-regular fa-heart"></i> 5</button>
+                                <button onclick="replyComment('FlashRunner')" class="hover:text-cyan-400"><i class="fa-solid fa-reply"></i> Reply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Form Input -->
+                <form id="chatForm" onsubmit="postComment(event)" class="space-y-2 border-t border-purple-900/50 pt-3">
+                    <div class="flex gap-2">
+                        <input id="userNameInput" type="text" placeholder="Your Name" required class="w-1/3 bg-purple-950/50 border border-purple-800/60 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-400">
+                        <select id="userBadgeSelect" class="bg-purple-950/50 border border-purple-800/60 rounded-xl px-2 py-1.5 text-xs text-purple-300 focus:outline-none focus:border-cyan-400 font-orbitron">
+                            <option value="FAN">FAN</option>
+                            <option value="SUB">SUB</option>
+                            <option value="VIP">VIP</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-2">
+                        <input id="userMsgInput" type="text" placeholder="Type a comment or shoutout..." required class="flex-grow bg-purple-950/50 border border-purple-800/60 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400">
+                        <button type="submit" class="bg-gradient-to-r from-brand-purple to-pink-600 hover:from-purple-600 hover:to-pink-500 text-white font-orbitron font-bold text-xs px-4 py-2 rounded-xl transition-all shadow-md">
+                            Send
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right Side: Streaming Schedule Timeline -->
+            <div id="schedule" class="glass-panel p-5 rounded-2xl flex flex-col">
+                <div class="flex items-center justify-between border-b border-purple-900/50 pb-3 mb-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-check text-pink-400 text-lg"></i>
+                        <h2 class="font-orbitron font-bold text-lg text-white">STREAM SCHEDULE</h2>
+                    </div>
+                    <span class="text-[10px] font-mono text-purple-300">UTC+5:30</span>
+                </div>
+
+                <!-- Days Timeline list -->
+                <div class="space-y-3 flex-grow font-rajdhani">
+                    <div class="p-3 rounded-xl bg-purple-950/40 border border-purple-800/40 hover:border-cyan-400/50 transition-colors">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-bold text-sm text-cyan-300 font-orbitron">FRIDAY - 7:00 PM</span>
+                            <span class="text-[10px] bg-red-950 text-red-400 border border-red-500/30 px-2 py-0.5 rounded font-bold">NEXT STREAM</span>
+                        </div>
+                        <h4 class="font-bold text-white text-sm">Minecraft SMP Server Exploration</h4>
+                        <p class="text-xs text-gray-400">Community gameplay & building live challenges.</p>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-purple-950/40 border border-purple-800/40 hover:border-pink-400/50 transition-colors">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-bold text-sm text-pink-400 font-orbitron">SATURDAY - 8:30 PM</span>
+                            <span class="text-[10px] bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded">NEW EDIT</span>
+                        </div>
+                        <h4 class="font-bold text-white text-sm">Anime Edit Premieres & AMVs</h4>
+                        <p class="text-xs text-gray-400">Demon Slayer, Jujutsu Kaisen 4K Edits.</p>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-purple-950/40 border border-purple-800/40 hover:border-cyan-400/50 transition-colors">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-bold text-sm text-brand-neonCyan font-orbitron">SUNDAY - 6:00 PM</span>
+                            <span class="text-[10px] bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded">SHORTS</span>
+                        </div>
+                        <h4 class="font-bold text-white text-sm">Stickman Flash & Gaming Shorts</h4>
+                        <p class="text-xs text-gray-400">High speed gameplay speedruns and tips.</p>
+                    </div>
+                </div>
+
+                <!-- Schedule Footer Note -->
+                <div class="mt-4 pt-3 border-t border-purple-900/50 text-center text-xs text-gray-400 font-rajdhani">
+                    <p><i class="fa-solid fa-bell text-yellow-400 mr-1"></i> Subscribe on YouTube & hit the bell for live notifications!</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="glass-panel border-t border-purple-900/40 py-8 px-4 lg:px-8 mt-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <!-- Brand Info -->
+            <div class="text-center md:text-left">
+                <span class="font-orbitron font-black text-xl text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-400 to-cyan-400">
+                    SENPAI<span class="text-brand-neonCyan">DIARIES</span>
+                </span>
+                <p class="text-xs text-gray-400 font-rajdhani mt-1">Official Gaming & Anime Streaming Hub • @senpaidiaries37</p>
+            </div>
+
+            <!-- Social Links -->
+            <div class="flex items-center gap-4 text-xl">
+                <a href="https://www.youtube.com/@senpaidiaries37" target="_blank" class="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-800/40 flex items-center justify-center text-red-500 hover:bg-red-600 hover:text-white transition-all">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+                <a href="https://www.youtube.com/@senpaidiaries37/shorts" target="_blank" class="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-800/40 flex items-center justify-center text-pink-400 hover:bg-pink-600 hover:text-white transition-all">
+                    <i class="fa-solid fa-bolt"></i>
+                </a>
+                <a href="#community" class="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-800/40 flex items-center justify-center text-cyan-400 hover:bg-cyan-500 hover:text-black transition-all">
+                    <i class="fa-solid fa-comments"></i>
+                </a>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-xs font-mono text-gray-500 text-center md:text-right">
+                &copy; <span id="year"></span> SenpaiDiaries. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set dynamic current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Global State Variable for Like Button
+        let isLiked = false;
+
+        // Function: Switch Featured Video in Cinema Player
+        function switchVideo(videoId, title, category, views, likes) {
+            const player = document.getElementById('mainVideoEmbed');
+            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+
+            document.getElementById('videoTitle').textContent = title;
+            document.getElementById('videoCategory').textContent = category.toUpperCase();
+            document.getElementById('viewCount').innerHTML = `<i class="fa-solid fa-eye text-cyan-400"></i> ${views} views`;
+            document.getElementById('likeCount').textContent = likes;
+            document.getElementById('ytDirectLink').href = `https://www.youtube.com/watch?v=${videoId}`;
+
+            // Smooth scroll up to player
+            document.getElementById('stream').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Function: Load Custom Video via Input ID
+        function loadCustomVideo() {
+            const videoId = document.getElementById('customVideoInput').value.trim();
+            if (videoId) {
+                switchVideo(videoId, "Custom Selected Content - SenpaiDiaries", "CUSTOM", "1.0K", "500");
+            }
+        }
+
+        // Function: Toggle Like Stream/Video Button
+        function toggleLike() {
+            const likeBtn = document.getElementById('likeBtn');
+            const likeCount = document.getElementById('likeCount');
+            let currentLikes = parseFloat(likeCount.textContent.replace('K', '')) * 1000;
+
+            if (!isLiked) {
+                currentLikes += 1;
+                likeBtn.classList.add('bg-pink-600', 'text-white');
+                likeBtn.classList.remove('bg-purple-900/40', 'text-pink-400');
+                isLiked = true;
+            } else {
+                currentLikes -= 1;
+                likeBtn.classList.remove('bg-pink-600', 'text-white');
+                likeBtn.classList.add('bg-purple-900/40', 'text-pink-400');
+                isLiked = false;
+            }
+            likeCount.textContent = (currentLikes / 1000).toFixed(1) + 'K';
+        }
+
+        // Function: Share Stream Link
+        function shareStream() {
+            const link = document.getElementById('ytDirectLink').href;
+            navigator.clipboard.writeText(link).then(() => {
+                showToast("Stream link copied to clipboard!");
+            }).catch(() => {
+                showToast("YouTube Link: " + link);
+            });
+        }
+
+        // Helper Toast Notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 bg-brand-purple text-white px-4 py-3 rounded-xl font-orbitron text-xs shadow-2xl z-50 transition-all border border-cyan-400';
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-cyan-300 mr-2"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Function: Filter Videos in Grid
+        function setCategoryFilter(cat) {
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => btn.classList.remove('bg-brand-purple', 'text-white'));
+            
+            // Set active state visually
+            event.target.classList.add('bg-brand-purple', 'text-white');
+
+            const cards = document.querySelectorAll('.video-card');
+            cards.forEach(card => {
+                if (cat === 'all' || card.dataset.category.toLowerCase().includes(cat.toLowerCase())) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function filterVideos() {
+            const query = document.getElementById('videoSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.video-card');
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const category = card.dataset.category.toLowerCase();
+                if (title.includes(query) || category.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Function: Live Chat Post Comment
+        function postComment(event) {
+            event.preventDefault();
+            const name = document.getElementById('userNameInput').value.trim();
+            const badge = document.getElementById('userBadgeSelect').value;
+            const message = document.getElementById('userMsgInput').value.trim();
+
+            if (!name || !message) return;
+
+            const chatFeed = document.getElementById('chatFeed');
+            const commentElem = document.createElement('div');
+            commentElem.className = 'p-2.5 rounded-xl bg-purple-950/50 border border-cyan-500/30 flex items-start gap-3 animate-fade-in';
+            
+            let badgeColor = 'bg-blue-950 text-cyan-300 border-cyan-500/30';
+            if (badge === 'SUB') badgeColor = 'bg-purple-950 text-purple-300 border-purple-500/30';
+            if (badge === 'VIP') badgeColor = 'bg-pink-950 text-pink-300 border-pink-500/30';
+
+            const firstLetter = name.charAt(0).toUpperCase();
+
+            commentElem.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-purple to-cyan-400 flex items-center justify-center font-bold text-white shrink-0 font-orbitron">
+                    ${firstLetter}
+                </div>
+                <div class="flex-grow">
+                    <div class="flex items-center justify-between mb-1">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-cyan-300">${escapeHtml(name)}</span>
+                            <span class="${badgeColor} border text-[9px] px-1.5 py-0.2 rounded font-orbitron">${badge}</span>
+                        </div>
+                        <span class="text-[10px] text-gray-500">Just now</span>
+                    </div>
+                    <p class="text-gray-200">${escapeHtml(message)}</p>
+                    <div class="flex items-center gap-3 mt-1.5 text-[10px] text-gray-400">
+                        <button onclick="likeComment(this)" class="hover:text-pink-400 flex items-center gap-1"><i class="fa-regular fa-heart"></i> 0</button>
+                        <button onclick="replyComment('${escapeHtml(name)}')" class="hover:text-cyan-400"><i class="fa-solid fa-reply"></i> Reply</button>
+                    </div>
+                </div>
+            `;
+
+            chatFeed.appendChild(commentElem);
+            chatFeed.scrollTop = chatFeed.scrollHeight;
+
+            document.getElementById('userMsgInput').value = '';
+        }
+
+        function likeComment(btn) {
+            let likes = parseInt(btn.textContent.trim()) || 0;
+            likes += 1;
+            btn.innerHTML = `<i class="fa-solid fa-heart text-pink-500"></i> ${likes}`;
+        }
+
+        function replyComment(username) {
+            const input = document.getElementById('userMsgInput');
+            input.value = `@${username} `;
+            input.focus();
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+    </script>
+</body>
+</html>
